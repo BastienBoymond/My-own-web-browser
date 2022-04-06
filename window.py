@@ -2,6 +2,16 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtWebEngineWidgets import *
+import os
+import sys
+
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -21,19 +31,19 @@ class MainWindow(QMainWindow):
         #Create First Tab
         self.add_new_tab();
 
-        back_btn = QAction(QIcon('./assets/left_arrow.png'), "Back" , self)
+        back_btn = QAction(QIcon(resource_path('./assets/left_arrow.png')), "Back" , self)
         back_btn.triggered.connect(self.tabs.currentWidget().back)
         
-        forward_btn = QAction(QIcon('./assets/right_arrow.png'), "Forward", self)
+        forward_btn = QAction(QIcon(resource_path('./assets/right_arrow.png')), "Forward", self)
         forward_btn.triggered.connect(self.tabs.currentWidget().forward)
 
-        reload_btn = QAction(QIcon('./assets/reload.png'),'Reload', self)
+        reload_btn = QAction(QIcon(resource_path('./assets/reload.png')),'Reload', self)
         reload_btn.triggered.connect(self.tabs.currentWidget().reload)
 
         self.url_bar = QLineEdit()
         self.url_bar.returnPressed.connect(self.navigate_to_url)
 
-        add_btn = QAction(QIcon('./assets/plus.png'), 'Add', self)
+        add_btn = QAction(QIcon(resource_path('./assets/plus.png')), 'Add', self)
         add_btn.triggered.connect(lambda: self.add_new_tab())
         
         self.navbar.addActions([back_btn, forward_btn, add_btn, reload_btn])
